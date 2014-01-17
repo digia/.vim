@@ -1,4 +1,4 @@
 bundle/*
-!bundle/.gitkeep
+!bundle/vundle
 .cache/*
 !.cache/.gitkeep
