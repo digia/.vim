@@ -1,4 +1,6 @@
 bundle/*
 !bundle/vundle
 .cache/*
-!.cache/.gitkeep
+!.cache/backup
+!.cache/undo
+!.cache/swap
