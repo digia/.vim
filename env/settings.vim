@@ -49,8 +49,6 @@ set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.idea/*,*/.DS_Store
 
 set splitbelow
 set splitright
-set noerrorbells
-set novisualbell
 set hlsearch                                        "highlight searches
 set incsearch                                       "incremental searching
 set ignorecase                                      "ignore case for searching
@@ -117,3 +115,8 @@ set ambiwidth=double
 
 " Turn off the beeps!!!!!
 set noerrorbells visualbell t_vb=
+
+" vim-gitgutter
+nmap ]h <Plug>GitGutterNextHunk
+nmap [h <Plug>GitGutterPrevHunk
+

@@ -25,6 +25,7 @@ Bundle "MarcWeber/vim-addon-mw-utils"
 Bundle "tomtom/tlib_vim"
 Bundle "garbas/vim-snipmate"
 Bundle "honza/vim-snippets"
+Bundle "airblade/vim-gitgutter"
 
 " vim-scripts repos
 Bundle 'L9'
