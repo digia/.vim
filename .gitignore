@@ -1,6 +1,9 @@
 bundle/*
 !bundle/vundle
 .cache/*
+.cache/undo/*
+.cache/backup/*
+.cache/swap/*
 !.cache/backup
 !.cache/undo
 !.cache/swap
