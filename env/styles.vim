@@ -28,6 +28,7 @@ set background=dark
 "colorscheme vividchalk
 
 "let g:solarized_termcolors=256
+let g:solarized_contrast="high"
 colorscheme solarized
 
 " highlight ColorColumn  guibg=#01242d
