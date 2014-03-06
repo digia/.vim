@@ -19,7 +19,7 @@ nnoremap ; :
 nnoremap : ;
 
 " Mode Switching: ---
-imap jj <esc>
+inoremap jj <esc>
 
 " Buffers: ---
 nmap <c-e> ;e#<cr>
@@ -115,3 +115,14 @@ nmap <silent> ,md ;!mkdir -p %:p:h<CR>
 
 " Make the current file executable
 nmap ,x :w<cr>:!chmod 755 %<cr>:e<cr>
+
+" Redraw after the silent command is ran
+command! -nargs=1 Silent
+        \ | execute ':silent !'.<q-args>
+        \ | execute ':redraw!'
+
+" Reload the active chrome tab
+nmap <leader>r ;Silent reload-chrome<cr>
+
+nmap <leader>t ;w\|:Silent echo "phpunit %" > test-commands<cr> 
+nmap <leader>ts ;w\|:Silent echo "phpunit" > test-commands<cr>
