@@ -20,7 +20,6 @@ Bundle 'xsbeats/vim-blade'
 Bundle 'aaronbieber/quicktask'
 "Bundle 'ervandew/supertab'
 Bundle 'majutsushi/tagbar'
-Bundle 'majutsushi/tagbar'
 Bundle "MarcWeber/vim-addon-mw-utils"
 Bundle "tomtom/tlib_vim"
 Bundle "garbas/vim-snipmate"
