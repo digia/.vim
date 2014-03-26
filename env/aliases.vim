@@ -126,3 +126,6 @@ nmap <leader>r ;Silent reload-chrome<cr>
 
 nmap <leader>t ;w\|:Silent echo "phpunit %" > test-commands<cr> 
 nmap <leader>ts ;w\|:Silent echo "phpunit" > test-commands<cr>
+
+nmap <leader>s ;w\|:Silent echo "vendor/bin/phpspec run %" > test-commands<cr> 
+nmap <leader>ss ;w\|:Silent echo "vendor/bin/phpspec run" > test-commands<cr>
