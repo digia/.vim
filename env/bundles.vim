@@ -26,6 +26,8 @@ Bundle "honza/vim-snippets"
 Bundle "airblade/vim-gitgutter"
 Bundle "pangloss/vim-javascript"
 Bundle 'christoomey/vim-tmux-navigator'
+Bundle 'shawncplus/phpcomplete.vim'
+Bundle 'dsawardekar/wordpress.vim'
 
 " vim-scripts repos
 Bundle 'L9'

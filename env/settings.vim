@@ -1,146 +1,311 @@
-set shell=bash
-set noesckeys
+" Digia .vimrc file
+" vim:set ts=2 sts=2 sw=2 expandtab:
 
-set ttimeout
-set ttimeoutlen=50 " Don't wait so long for the next keypress (particularly in ambigious Leader situations.
-set timeoutlen=300
+autocmd!
 
-set mouse=a " enable mouse for all modes settings
-
-" Hide the mouse pointer while typing
-set mousehide
-
-set clipboard=unnamed "sync with OS clipboard
-set showmode
-set nrformats-=octal "always assume decimal numbers
-
-set tags=tag
-set showfulltag
-
-set modeline
-set modelines=5
-
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" BASIC EDITING CONFIGURATION
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set nocompatible
+let mapleader=","
+" allow unsaved background buffers and remember marks/undo for them
 set hidden
-set ttyfast                                         "assume fast terminal connection
-set viewoptions=folds,options,cursor,unix,slash     "unix/windows compatibility
-set encoding=utf-8 
-set history=1000
-set undolevels=1000
-set backspace=indent,eol,start
+" remember more commands and search history
+set history=10000
 set expandtab
-set autoindent
-set copyindent
-set smartindent
-set smarttab
-set shiftround
-
-set linebreak
-let &showbreak='↪ '
-
-" When the page starts to scroll, keep the cursor 4 lines from the top and 4
-" lines from the bottom
-set scrolloff=4
-
-set display+=lastline
-
-set wildmenu                                        "show list for autocomplete
-set wildmode=list:full
-set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.idea/*,*/.DS_Store
-
-set splitbelow
-set splitright
-set hlsearch                                        "highlight searches
-set incsearch                                       "incremental searching
-set ignorecase                                      "ignore case for searching
-set smartcase                                       "do case-sensitive if there's a capital letter
-
-nmap <silent> ,/ ;nohlsearch<CR>
-
-if executable('ack')
-    set grepprg=ack\ --nogroup\ --column\ --smart-case\ --nocolor\ --follow\ $*
-    set grepformat=%f:%l:%c:%m
-endif
-if executable('ag')
-    set grepprg=ag\ --nogroup\ --column\ --smart-case\ --nocolor\ --follow
-    set grepformat=%f:%l:%c:%m
-endif
-if exists('+undofile')
-    set undofile
-    set undodir=~/.vim/.cache/undo
-endif
-
-set backup
-set backupdir=~/.vim/.cache/backup
-set directory=~/.vim/.cache/swap
-" set noswapfile
-
-call EnsureExists('~/.vim/.cache')
-call EnsureExists(&undodir)
-call EnsureExists(&backupdir)
-
-set wrap
-set title
-set number
-set ruler
 set tabstop=4
 set shiftwidth=4
-set showmatch
-set cursorline
+set softtabstop=4
+set autoindent
 set laststatus=2
-set statusline=[%n]\ %<%.99f\ %h%w%m%r%y\ %{exists('*CapsLockStatusline')?CapsLockStatusline():''}%=%-16(\ %l,%c-%v\ %)%P
-set ssop-=options    " do not store global and local values in a session
-set ssop-=folds      " do not store folds
-au BufRead,BufNewFile *.md,*.markdown,*.mdown,*.mkd,*.mkdn,README.md set filetype=markdown
-au BufRead,BufNewFile *.pp,*.puppet set filetype=puppet
-au BufRead,BufNewFile *.go set filetype=go
-set tags=tags
-
+set showmatch
+set incsearch
+set hlsearch
+" make searches case-sensitive only if they contain upper-case characters
+set ignorecase smartcase
+" highlight current line
+set cursorline
+set cmdheight=2
+set switchbuf=useopen
+set showtabline=2
+set winwidth=79
+" This makes RVM work inside Vim. I have no idea why.
+set shell=bash
+" Prevent Vim from clobbering the scrollback buffer. See
+" http://www.shallowsky.com/linux/noaltscreen.html
+set t_ti= t_te=
+" keep more context when scrolling off the end of a buffer
+set scrolloff=3
+" Store temporary files in a central spot
+set backup
+set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
+set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
+" allow backspacing over everything in insert mode
+set backspace=indent,eol,start
+" display incomplete commands
+set showcmd
+" Enable highlighting for syntax
+syntax on
+" Enable file type detection.
+" Use the default filetype settings, so that mail gets 'tw' set to 72,
+" 'cindent' is on in C files, etc.
+" Also load indent files, to automatically do language-dependent indenting.
+filetype plugin indent on
+" use emacs-style tab completion when selecting files, etc
+set wildmode=longest,list
+" make tab completion for files/buffers act like bash
+set wildmenu
+set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.idea/*,*/.DS_Store
+" Fix slow O inserts
+:set timeout timeoutlen=1000 ttimeoutlen=100
+" Normally, Vim messes with iskeyword when you open a shell file. This can
+" leak out, polluting other file types even after a 'set ft=' change. This
+" variable prevents the iskeyword change so it can't hurt anyone.
+let g:sh_noisk=1
+" Modelines (comments that set vim options on a per-file basis)
+set modeline
+set modelines=3
+" Turn folding off for real, hopefully
+set foldmethod=manual
+set nofoldenable
+" Insert only one space when joining lines that contain sentence-terminating
+" punctuation like `.`.
+set nojoinspaces
+" If a file is changed outside of vim, automatically reload it without asking
+set autoread
+" enable mouse for all modes settings
+set mouse=a 
+" Hide the mouse pointer while typing
+set mousehide
+"sync with OS clipboard
+set clipboard=unnamed 
+set number
 " Make command line two lines high
 set ch=2
-
 " Don't update the display while executing macros
 set lazyredraw
-
-" Don't show the current command int he lower right corner.  In OSX, if this is
-" set and lazyredraw is set then it's slow as molasses, so we unset this
-set showcmd
-
-" Automatically read a file that has changed on disk
-set autoread
-
 " Various characters are 'wider' than normal fixed width characters, but the
 " default setting of ambiwidth (single) squeezes them into 'normal' width,
 " which  sucks.  Setting it to double makes it awesome.
 set ambiwidth=double
-
 " Turn off the beeps!!!!!
 set noerrorbells visualbell t_vb=
 
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" CUSTOM AUTOCMDS
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+augroup vimrcEx
+  " Clear all autocmds in the group
+  autocmd!
+  autocmd FileType text setlocal textwidth=78
+  " Jump to last cursor position unless it's invalid or in an event handler
+  autocmd BufReadPost *
+    \ if line("'\"") > 0 && line("'\"") <= line("$") |
+    \   exe "normal g`\"" |
+    \ endif
+
+  "for ruby, autoindent with two spaces, always expand tabs
+  autocmd FileType ruby,haml,eruby,yaml,html,javascript,sass,cucumber set ai sw=2 sts=2 et
+  autocmd FileType python set sw=4 sts=4 et
+
+  autocmd! BufRead,BufNewFile *.sass setfiletype sass 
+
+  autocmd BufRead *.mkd  set ai formatoptions=tcroqn2 comments=n:&gt;
+  autocmd BufRead *.markdown  set ai formatoptions=tcroqn2 comments=n:&gt;
+
+  " Indent p tags
+  " autocmd FileType html,eruby if g:html_indent_tags !~ '\\|p\>' | let g:html_indent_tags .= '\|p\|li\|dt\|dd' | endif
+
+  " Don't syntax highlight markdown because it's often wrong
+  autocmd! FileType mkd setlocal syn=off
+
+  " Leave the return key alone when in command line windows, since it's used
+  " to run commands there.
+  autocmd! CmdwinEnter * :unmap <cr>
+  autocmd! CmdwinLeave * :call MapCR()
+
+  " *.md is markdown
+  autocmd! BufNewFile,BufRead *.md setlocal ft=
+augroup END
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" STATUS LINE
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set statusline=%<%f\ %m%r%w\ %{fugitive#statusline()}\ [%{&ft}]\ %*\ %=\ R:%l/%L\ %*\ C:%03c\ %P
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" MISC KEY MAPS
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Can't be bothered to understand ESC vs <c-c> in insert mode
+imap <c-c> <esc>
+nnoremap j gj
+nnoremap k gk
+nnoremap ; :
+nnoremap : ;
+nmap <c-e> ;e#<cr>
+nmap <silent> ,/ ;nohlsearch<CR>
+set pastetoggle=<F2> " Paste mode toggle.
+" Path to current files directory
+cnoremap %% <C-R>=expand('%:h').'/'<cr>
+map <leader>e ;edit %%
+map <leader>v ;view %%
+" Exit insert mode
+inoremap jj <esc>
+" Split windows
+map <c-j> <c-w>j
+map <c-k> <c-w>k
+map <c-l> <c-w>l
+map <c-h> <c-w>h
+" Align selected lines
+vnoremap <leader>ib :!align<cr>
+" cd to the directory containing the file in the buffer
+nmap <silent> ,cd ;lcd %:h<CR>
+" Make the directory of the file in the buffer
+nmap <silent> ,md ;!mkdir -p %:p:h<CR>
+" Make the current file executable
+nmap ,x :w<cr>:!chmod 755 %<cr>:e<cr>
+" Redraw after the silent command is ran
+command! -nargs=1 Silent
+        \ | execute ':silent !'.<q-args>
+        \ | execute ':redraw!'
+" Reload the active chrome tab
+nmap <leader>r ;Silent reload-chrome<cr>
+nmap <leader>t ;w\|:Silent echo "phpunit %" > test-commands<cr> 
+nmap <leader>ts ;w\|:Silent echo "phpunit" > test-commands<cr>
+nmap <leader>s ;w\|:Silent echo "vendor/bin/phpspec run %" > test-commands<cr> 
+nmap <leader>ss ;w\|:Silent echo "vendor/bin/phpspec run" > test-commands<cr>
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" PLUGIN KEY MAPS
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" CTRLP
+map <leader>b ;CtrlPBuffer<CR>
+map <leader>f ;CtrlP<CR>
+let g:ctrlp_cmd = 'CtrlP'
+let g:ctrlp_working_path_mode = 'ra'
+" set wildignore+=*/vendor/**
+" NerdTree
+map <leader>n ;NERDTreeToggle<CR>
+" Tagbar
+nmap <F8> ;TagbarToggle<CR>
+" Tablist
+map <F4> ;TlistToggle<cr>
+let Tlist_Ctags_Cmd = "/usr/local/bin/ctags"
+let Tlist_WinWidth = 50
+" Fugitive
+nnoremap <silent> <leader>gs :Gstatus<CR>
+nnoremap <silent> <leader>gd :Gdiff<CR>
+nnoremap <silent> <leader>gc :Gcommit<CR>
+nnoremap <silent> <leader>gb :Gblame<CR>
+nnoremap <silent> <leader>gl :Glog<CR>
+nnoremap <silent> <leader>gp :Git push<CR>
+nnoremap <silent> <leader>gw :Gwrite<CR>
+nnoremap <silent> <leader>gr :Gremove<CR>
+" Tabular
+nmap <Leader>a& ;Tabularize /&<CR>
+vmap <Leader>a& ;Tabularize /&<CR>
+nmap <Leader>a= ;Tabularize /=<CR>
+vmap <Leader>a= ;Tabularize /=<CR>
+nmap <Leader>a: ;Tabularize /:<CR>
+vmap <Leader>a: ;Tabularize /:<CR>
+nmap <Leader>a:: ;Tabularize /:\zs<CR>
+vmap <Leader>a:: ;Tabularize /:\zs<CR>
+nmap <Leader>a, ;Tabularize /,<CR>
+vmap <Leader>a, ;Tabularize /,<CR>
+nmap <Leader>a<Bar> ;Tabularize /<Bar><CR>
+vmap <Leader>a<Bar> ;Tabularize /<Bar><CR>
 " vim-gitgutter
 nmap ]h <Plug>GitGutterNextHunk
 nmap [h <Plug>GitGutterPrevHunk
+" VMap
+vmap <expr>  ++  VMATH_YankAndAnalyse()
+nmap         ++  vip++
 
-"
-" statusline
-"
-hi User1 guifg=#ffdad8  guibg=#880c0e
-hi User2 guifg=#000000  guibg=#F4905C
-hi User3 guifg=#292b00  guibg=#f4f597
-hi User4 guifg=#112605  guibg=#aefe7B
-hi User5 guifg=#051d00  guibg=#7dcc7d
-hi User7 guifg=#ffffff  guibg=#880c0e gui=bold
-hi User8 guifg=#ffffff  guibg=#5b7fbb
-hi User9 guifg=#ffffff  guibg=#810085
-hi User0 guifg=#ffffff  guibg=#094afe
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" RENAME CURRENT FILE
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+function! RenameFile()
+    let old_name = expand('%')
+    let new_name = input('New file name: ', expand('%'), 'file')
+    if new_name != '' && new_name != old_name
+        exec ':saveas ' . new_name
+        exec ':silent !rm ' . old_name
+        redraw!
+    endif
+endfunction
+map <leader>m :call RenameFile()<cr>
 
-set statusline=
-set statusline+=%*\[%n]                                  "buffernr
-set statusline+=%*\ %<%F\                                "File+path
-set statusline+=%{fugitive#statusline()}\    
-set statusline+=%*\ %y\                                  "FileType
-set statusline+=%*\ %{''.(&fenc!=''?&fenc:&enc).''}      "Encoding
-set statusline+=%*\ %{(&bomb?\",BOM\":\"\")}\            "Encoding2
-set statusline+=%*\ %{&ff}\                              "FileFormat (dos/unix..) 
-set statusline+=%*\ %=\ R:%l/%L\                         "Rownumber/total (%)
-set statusline+=%*\ C:%03c\                              "Colnr
-set statusline+=%*\ \ %m%r%w\ %P\ \                      "Modified? Readonly? Top/bot.
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" OpenChangedFiles COMMAND
+" Open a split for each dirty file in git
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+function! OpenChangedFiles()
+  only " Close all windows, unless they're modified
+  let status = system('git status -s | grep "^ \?\(M\|A\|UU\)" | sed "s/^.\{3\}//"')
+  let filenames = split(status, "\n")
+  exec "edit " . filenames[0]
+  for filename in filenames[1:]
+    exec "sp " . filename
+  endfor
+endfunction
+command! OpenChangedFiles :call OpenChangedFiles()
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" InsertTime COMMAND
+" Insert the current time
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+command! InsertTime :normal a<c-r>=strftime('%F %H:%M:%S.0 %z')<cr>
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" RemoveFancyCharacters COMMAND
+" Remove smart quotes, etc.
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+function! RemoveFancyCharacters()
+    let typo = {}
+    let typo["“"] = '"'
+    let typo["”"] = '"'
+    let typo["‘"] = "'"
+    let typo["’"] = "'"
+    let typo["–"] = '--'
+    let typo["—"] = '---'
+    let typo["…"] = '...'
+    :exe ":%s/".join(keys(typo), '\|').'/\=typo[submatch(0)]/ge'
+endfunction
+command! RemoveFancyCharacters :call RemoveFancyCharacters()
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Prepare a new PHP class
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+function! Class()
+    let name = input('Class name? ')
+    let namespace = input('Any Namespace? ')
+ 
+    if strlen(namespace)
+        exec 'normal i<?php namespace ' . namespace . ';
+    else
+        exec 'normal i<?php
+    endif
+ 
+    " Open class
+    exec 'normal iclass ' . name . ' {^M}^[O^['
+    
+    exec 'normal i^M    public function __construct()^M{^M ^M}^['
+endfunction
+nmap ,1  :call Class()<cr>
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Add a new dependency to a PHP class
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+function! AddDependency()
+    let dependency = input('Var Name: ')
+    let namespace = input('Class Path: ')
+ 
+    let segments = split(namespace, '\')
+    let typehint = segments[-1]
+ 
+    exec 'normal gg/construct^M:H^Mf)i, ' . typehint . ' $' . dependency . '^[/}^>O$this->^[a' . dependency . ' = $' . dependency . ';^[?{^MkOprotected $' . dependency . ';^M^[?{^MOuse ' . namespace . ';^M^['
+ 
+    " Remove opening comma if there is only one dependency
+    exec 'normal :%s/(, /(/g'
+endfunction
+nmap ,2  :call AddDependency()<cr>
