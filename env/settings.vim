@@ -21,6 +21,7 @@ set laststatus=2
 set showmatch
 set incsearch
 set hlsearch
+set ttyfast   
 " make searches case-sensitive only if they contain upper-case characters
 set ignorecase smartcase
 " highlight current line
@@ -57,14 +58,14 @@ set wildmode=longest,list
 set wildmenu
 set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.idea/*,*/.DS_Store
 " Fix slow O inserts
-:set timeout timeoutlen=1000 ttimeoutlen=100
+:set timeout timeoutlen=300 ttimeoutlen=100
 " Normally, Vim messes with iskeyword when you open a shell file. This can
 " leak out, polluting other file types even after a 'set ft=' change. This
 " variable prevents the iskeyword change so it can't hurt anyone.
 let g:sh_noisk=1
 " Modelines (comments that set vim options on a per-file basis)
 set modeline
-set modelines=3
+set modelines=5
 " Turn folding off for real, hopefully
 set foldmethod=manual
 set nofoldenable
@@ -105,10 +106,10 @@ augroup vimrcEx
     \ endif
 
   "for ruby, autoindent with two spaces, always expand tabs
-  autocmd FileType ruby,haml,eruby,yaml,html,javascript,sass,cucumber set ai sw=2 sts=2 et
+  autocmd FileType ruby,haml,eruby,yaml,javascript,sass,scss,cucumber set ai sw=2 sts=2 et
   autocmd FileType python set sw=4 sts=4 et
 
-  autocmd! BufRead,BufNewFile *.sass setfiletype sass 
+  autocmd! BufRead,BufNewFile *.sass,*.scss setfiletype sass 
 
   autocmd BufRead *.mkd  set ai formatoptions=tcroqn2 comments=n:&gt;
   autocmd BufRead *.markdown  set ai formatoptions=tcroqn2 comments=n:&gt;
@@ -150,7 +151,7 @@ cnoremap %% <C-R>=expand('%:h').'/'<cr>
 map <leader>e ;edit %%
 map <leader>v ;view %%
 " Exit insert mode
-inoremap jj <esc>
+inoremap kj <esc>
 " Split windows
 map <c-j> <c-w>j
 map <c-k> <c-w>k
@@ -220,6 +221,18 @@ nmap [h <Plug>GitGutterPrevHunk
 " VMap
 vmap <expr>  ++  VMATH_YankAndAnalyse()
 nmap         ++  vip++
+
+" python-mode
+let g:pymode_run = 0
+let g:pymode_breakpoint = 0
+let g:pymode_lint_cwindow = 0
+let g:pymode_rope_complete_on_dot = 0
+let g:pymode_syntax_print_as_function = 1
+let g:pymode_lint_ignore = "E501,W"
+
+" syntastic
+let g:syntastic_mode_map = { 'passive_filetypes': ['sass'] }
+
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " RENAME CURRENT FILE

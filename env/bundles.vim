@@ -27,7 +27,10 @@ Bundle "airblade/vim-gitgutter"
 Bundle "pangloss/vim-javascript"
 Bundle 'christoomey/vim-tmux-navigator'
 Bundle 'shawncplus/phpcomplete.vim'
-Bundle 'dsawardekar/wordpress.vim'
+"Bundle 'dsawardekar/wordpress.vim'
+Bundle 'mileszs/ack.vim'
+Bundle 'groenewege/vim-less'
+Bundle 'klen/python-mode'
 
 " vim-scripts repos
 Bundle 'L9'
