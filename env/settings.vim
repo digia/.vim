@@ -8,9 +8,7 @@ autocmd!
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set nocompatible
 let mapleader=","
-" allow unsaved background buffers and remember marks/undo for them
 set hidden
-" remember more commands and search history
 set history=10000
 set expandtab
 set tabstop=4
@@ -30,7 +28,6 @@ set cmdheight=2
 set switchbuf=useopen
 set showtabline=2
 set winwidth=79
-" This makes RVM work inside Vim. I have no idea why.
 set shell=bash
 " Prevent Vim from clobbering the scrollback buffer. See
 " http://www.shallowsky.com/linux/noaltscreen.html
@@ -137,6 +134,7 @@ set statusline=%<%f\ %m%r%w\ %{fugitive#statusline()}\ [%{&ft}]\ %*\ %=\ R:%l/%L
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " MISC KEY MAPS
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
 " Can't be bothered to understand ESC vs <c-c> in insert mode
 imap <c-c> <esc>
 nnoremap j gj
@@ -146,29 +144,38 @@ nnoremap : ;
 nmap <c-e> ;e#<cr>
 nmap <silent> ,/ ;nohlsearch<CR>
 set pastetoggle=<F2> " Paste mode toggle.
+
 " Path to current files directory
 cnoremap %% <C-R>=expand('%:h').'/'<cr>
 map <leader>e ;edit %%
 map <leader>v ;view %%
+
 " Exit insert mode
 inoremap kj <esc>
-" Split windows
+
+" Windows
 map <c-j> <c-w>j
 map <c-k> <c-w>k
 map <c-l> <c-w>l
 map <c-h> <c-w>h
+
 " Align selected lines
 vnoremap <leader>ib :!align<cr>
+
 " cd to the directory containing the file in the buffer
 nmap <silent> ,cd ;lcd %:h<CR>
+
 " Make the directory of the file in the buffer
 nmap <silent> ,md ;!mkdir -p %:p:h<CR>
+
 " Make the current file executable
 nmap ,x :w<cr>:!chmod 755 %<cr>:e<cr>
+
 " Redraw after the silent command is ran
 command! -nargs=1 Silent
         \ | execute ':silent !'.<q-args>
         \ | execute ':redraw!'
+
 " Reload the active chrome tab
 nmap <leader>r ;Silent reload-chrome<cr>
 nmap <leader>t ;w\|:Silent echo "phpunit %" > test-commands<cr> 
@@ -185,14 +192,18 @@ map <leader>f ;CtrlP<CR>
 let g:ctrlp_cmd = 'CtrlP'
 let g:ctrlp_working_path_mode = 'ra'
 " set wildignore+=*/vendor/**
+
 " NerdTree
 map <leader>n ;NERDTreeToggle<CR>
+
 " Tagbar
 nmap <F8> ;TagbarToggle<CR>
+
 " Tablist
 map <F4> ;TlistToggle<cr>
 let Tlist_Ctags_Cmd = "/usr/local/bin/ctags"
 let Tlist_WinWidth = 50
+
 " Fugitive
 nnoremap <silent> <leader>gs :Gstatus<CR>
 nnoremap <silent> <leader>gd :Gdiff<CR>
@@ -202,6 +213,7 @@ nnoremap <silent> <leader>gl :Glog<CR>
 nnoremap <silent> <leader>gp :Git push<CR>
 nnoremap <silent> <leader>gw :Gwrite<CR>
 nnoremap <silent> <leader>gr :Gremove<CR>
+
 " Tabular
 nmap <Leader>a& ;Tabularize /&<CR>
 vmap <Leader>a& ;Tabularize /&<CR>
@@ -215,9 +227,11 @@ nmap <Leader>a, ;Tabularize /,<CR>
 vmap <Leader>a, ;Tabularize /,<CR>
 nmap <Leader>a<Bar> ;Tabularize /<Bar><CR>
 vmap <Leader>a<Bar> ;Tabularize /<Bar><CR>
+
 " vim-gitgutter
 nmap ]h <Plug>GitGutterNextHunk
 nmap [h <Plug>GitGutterPrevHunk
+
 " VMap
 vmap <expr>  ++  VMATH_YankAndAnalyse()
 nmap         ++  vip++
@@ -232,7 +246,6 @@ let g:pymode_lint_ignore = "E501,W"
 
 " syntastic
 let g:syntastic_mode_map = { 'passive_filetypes': ['sass'] }
-
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " RENAME CURRENT FILE
