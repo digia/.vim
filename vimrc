@@ -10,9 +10,7 @@ runtime macros/matchit.vim
 
 source ~/.vim/env/functions.vim
 source ~/.vim/env/settings.vim
-source ~/.vim/env/auto_commands.vim
 source ~/.vim/env/styles.vim
-source ~/.vim/env/aliases.vim
 
 " GoLang vim syntax
 set rtp+=$GOROOT/misc/vim
