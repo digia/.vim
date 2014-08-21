@@ -102,9 +102,9 @@ augroup vimrcEx
     \   exe "normal g`\"" |
     \ endif
 
-  "for ruby, autoindent with two spaces, always expand tabs
-  autocmd FileType ruby,haml,eruby,yaml,javascript,sass,scss,cucumber set ai sw=2 sts=2 et
-  autocmd FileType python set sw=4 sts=4 et
+  "Autoindent with two spaces, always expand tabs
+  autocmd FileType ruby,haml,eruby,yaml,javascript,html,sass,cucumber,blade set ai sw=2 sts=2 et
+  autocmd FileType python,php set sw=4 sts=4 et
 
   autocmd! BufRead,BufNewFile *.sass,*.scss setfiletype sass 
 
@@ -115,7 +115,7 @@ augroup vimrcEx
   " autocmd FileType html,eruby if g:html_indent_tags !~ '\\|p\>' | let g:html_indent_tags .= '\|p\|li\|dt\|dd' | endif
 
   " Don't syntax highlight markdown because it's often wrong
-  autocmd! FileType mkd setlocal syn=off
+  " autocmd! FileType mkd setlocal syn=off
 
   " Leave the return key alone when in command line windows, since it's used
   " to run commands there.
@@ -143,7 +143,7 @@ nnoremap ; :
 nnoremap : ;
 
 " Go back to last buffer
-map <C-e> ;bprev<CR>
+nmap <C-e> ;e#<cr>
 nmap <silent> ,/ ;nohlsearch<CR>
 " set pastetoggle=<F2> " Paste mode toggle.
 
