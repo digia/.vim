@@ -7,7 +7,7 @@ autocmd!
 " BASIC EDITING CONFIGURATION
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set nocompatible
-let mapleader=","
+let mapleader="\<space>"
 set hidden
 set history=10000
 set expandtab
@@ -95,21 +95,20 @@ set noerrorbells visualbell t_vb=
 augroup vimrcEx
   " Clear all autocmds in the group
   autocmd!
-  autocmd FileType text setlocal textwidth=78
+  autocmd! FileType text,md,mkd,markdown setlocal textwidth=78
   " Jump to last cursor position unless it's invalid or in an event handler
-  autocmd BufReadPost *
+  autocmd! BufReadPost *
     \ if line("'\"") > 0 && line("'\"") <= line("$") |
     \   exe "normal g`\"" |
     \ endif
 
   "Autoindent with two spaces, always expand tabs
-  autocmd FileType ruby,haml,eruby,yaml,javascript,html,sass,cucumber,blade set ai sw=2 sts=2 et
-  autocmd FileType python,php set sw=4 sts=4 et
+  autocmd! BufRead,BufNewFile,FileType ruby,haml,eruby,yaml,html,sass,scss,cucumber,blade,javascript set ai sw=2 sts=2 et
+  autocmd! BufRead,BufNewFile,FileType python,php set sw=4 sts=4 et
 
   autocmd! BufRead,BufNewFile *.sass,*.scss setfiletype sass 
 
-  autocmd BufRead *.mkd  set ai formatoptions=tcroqn2 comments=n:&gt;
-  autocmd BufRead *.markdown  set ai formatoptions=tcroqn2 comments=n:&gt;
+  autocmd! BufRead,BufNewFile *.md,*.mkd,*.markdown set ai formatoptions=tcroqn2 comments=n:&gt; filetype=markdown
 
   " Indent p tags
   " autocmd FileType html,eruby if g:html_indent_tags !~ '\\|p\>' | let g:html_indent_tags .= '\|p\|li\|dt\|dd' | endif
@@ -123,7 +122,7 @@ augroup vimrcEx
   autocmd! CmdwinLeave * :call MapCR()
 
   " *.md is markdown
-  autocmd! BufNewFile,BufRead *.md setlocal ft=
+  " autocmd! BufNewFile,BufRead *.md setlocal ft=
 augroup END
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -139,18 +138,16 @@ set statusline=%<%f\ %m%r%w\ %{fugitive#statusline()}\ [%{&ft}]\ %*\ %=\ R:%l/%L
 imap <c-c> <esc>
 nnoremap j gj
 nnoremap k gk
-nnoremap ; :
-nnoremap : ;
 
 " Go back to last buffer
-nmap <C-e> ;e#<cr>
-nmap <silent> ,/ ;nohlsearch<CR>
+nmap <C-e> :e#<cr>
+nmap <silent> ,/ :nohlsearch<CR>
 " set pastetoggle=<F2> " Paste mode toggle.
 
 " Path to current files directory
 cnoremap %% <C-R>=expand('%:h').'/'<cr>
 " Edit file but start from current files directory
-map <leader>e ;edit %%
+map <leader>e :edit %%
 
 " Exit insert mode
 inoremap kj <esc>
@@ -170,10 +167,10 @@ vnoremap > >gv
 vnoremap <leader>ib :!align<cr>
 
 " cd to the directory containing the file in the buffer
-nmap <silent> ,cd ;lcd %:h<CR>
+nmap <silent> ,cd :lcd %:h<CR>
 
 " Make the directory of the file in the buffer
-nmap <silent> ,md ;!mkdir -p %:p:h<CR>
+nmap <silent> ,md :!mkdir -p %:p:h<CR>
 
 " Make the current file executable
 nmap ,x :w<cr>:!chmod 755 %<cr>:e<cr>
@@ -184,19 +181,20 @@ command! -nargs=1 Silent
         \ | execute ':redraw!'
 
 " Reload the active chrome tab
-nmap <leader>r ;Silent reload-chrome<cr>
-nmap <leader>t ;w\|:Silent echo "phpunit %" > test-commands<cr> 
-nmap <leader>ts ;w\|:Silent echo "phpunit" > test-commands<cr>
-nmap <leader>s ;w\|:Silent echo "vendor/bin/phpspec run %" > test-commands<cr> 
-nmap <leader>ss ;w\|:Silent echo "vendor/bin/phpspec run" > test-commands<cr>
+nmap <leader>r :Silent reload-chrome<cr>
+nmap <leader>t :w\|:Silent echo "phpunit %" > test-commands<cr>
+nmap <leader>ts :w\|:Silent echo "phpunit" > test-commands<cr>
+nmap <leader>s :w\|:Silent echo "vendor/bin/phpspec run %" > test-commands<cr> 
+nmap <leader>ss :w\|:Silent echo "vendor/bin/phpspec run" > test-commands<cr>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " PLUGIN KEY MAPS
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " CTRLP
-map <C-b> ;CtrlPBuffer<CR>
+map <C-b> :CtrlPBuffer<CR>
+map <C-t> :CtrlPTag<CR>
 let g:ctrlp_cmd = 'CtrlP'
-let g:ctrlp_working_path_mode = 'ra'
+let g:ctrlp_working_path_mode = 'r'
 " set wildignore+=*/vendor/**
 
 " NerdTree
@@ -211,7 +209,7 @@ nnoremap <F2> :NERDTreeToggle<CR>
 nnoremap <F3> :NERDTreeFind<CR>
 
 " Tagbar
-nmap <F4> ;TagbarToggle<CR>
+nmap <F4> :TagbarToggle<CR>
 
 " Fugitive
 nnoremap <silent> <leader>gs :Gstatus<CR>
@@ -224,18 +222,18 @@ nnoremap <silent> <leader>gw :Gwrite<CR>
 nnoremap <silent> <leader>gr :Gremove<CR>
 
 " Tabular
-nmap <Leader>a& ;Tabularize /&<CR>
-vmap <Leader>a& ;Tabularize /&<CR>
-nmap <Leader>a= ;Tabularize /=<CR>
-vmap <Leader>a= ;Tabularize /=<CR>
-nmap <Leader>a: ;Tabularize /:<CR>
-vmap <Leader>a: ;Tabularize /:<CR>
-nmap <Leader>a:: ;Tabularize /:\zs<CR>
-vmap <Leader>a:: ;Tabularize /:\zs<CR>
-nmap <Leader>a, ;Tabularize /,<CR>
-vmap <Leader>a, ;Tabularize /,<CR>
-nmap <Leader>a<Bar> ;Tabularize /<Bar><CR>
-vmap <Leader>a<Bar> ;Tabularize /<Bar><CR>
+nmap <Leader>a& :Tabularize /&<CR>
+vmap <Leader>a& :Tabularize /&<CR>
+nmap <Leader>a= :Tabularize /=<CR>
+vmap <Leader>a= :Tabularize /=<CR>
+nmap <Leader>a: :Tabularize /:<CR>
+vmap <Leader>a: :Tabularize /:<CR>
+nmap <Leader>a:: :Tabularize /:\zs<CR>
+vmap <Leader>a:: :Tabularize /:\zs<CR>
+nmap <Leader>a, :Tabularize /,<CR>
+vmap <Leader>a, :Tabularize /,<CR>
+nmap <Leader>a<Bar> :Tabularize /<Bar><CR>
+vmap <Leader>a<Bar> :Tabularize /<Bar><CR>
 
 " vim-gitgutter
 nmap ]h <Plug>GitGutterNextHunk
@@ -259,3 +257,6 @@ let g:pymode_lint_ignore = "E501,W"
 
 " syntastic
 let g:syntastic_mode_map = { 'passive_filetypes': ['sass'] }
+
+" Switch
+nnoremap - :Switch<cr>
