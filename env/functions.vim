@@ -92,4 +92,20 @@
       exec 'normal :%s/(, /(/g'
   endfunction
   nmap ,2  :call AddDependency()<cr>
+
+
+  """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+  " Filter fugitives status line
+  """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+  function! DerekFugitiveStatusLine()
+    let status = fugitive#statusline()
+    let trimmed = substitute(status, '\[Git(\(.*\))\]', '\1', '')
+    let trimmed = substitute(trimmed, '\(\w\)\w\+\ze/', '\1', '')
+    let trimmed = substitute(trimmed, '/[^_]*\zs_.*', '', '')
+    if len(trimmed) == 0
+      return ""
+    else
+      return '(' . trimmed[0:10] . ')'
+    endif
+  endfunction
 " }}}
