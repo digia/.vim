@@ -76,7 +76,7 @@ set mouse=a
 " Hide the mouse pointer while typing
 set mousehide
 "sync with OS clipboard
-set clipboard=unnamed 
+set clipboard+=unnamed 
 set number
 " Make command line two lines high
 set ch=2
@@ -182,10 +182,6 @@ command! -nargs=1 Silent
 
 " Reload the active chrome tab
 nmap <leader>r :Silent reload-chrome<cr>
-nmap <leader>t :w\|:Silent echo "phpunit %" > test-commands<cr>
-nmap <leader>ts :w\|:Silent echo "phpunit" > test-commands<cr>
-nmap <leader>s :w\|:Silent echo "vendor/bin/phpspec run %" > test-commands<cr> 
-nmap <leader>ss :w\|:Silent echo "vendor/bin/phpspec run" > test-commands<cr>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " PLUGIN KEY MAPS
@@ -260,3 +256,16 @@ let g:syntastic_mode_map = { 'passive_filetypes': ['sass'] }
 
 " Switch
 nnoremap - :Switch<cr>
+
+" Vimux
+map <leader>vp :VimuxPromptCommand<cr>
+map <Leader>vz :VimuxZoomRunner<CR>
+map <Leader>vl :VimuxRunLastCommand<CR>
+map <Leader>vi :VimuxInspectRunner<CR>
+map <Leader>vq :VimuxCloseRunner<CR>
+map <Leader>vx :VimuxInterruptRunner<CR>
+
+nmap <leader>ht :w\|:call VimuxRunCommand("clear; phpunit " . bufname("%"))<cr>
+nmap <leader>ts :w\|:Silent echo "phpunit" > test-commands<cr>
+nmap <leader>s :w\|:Silent echo "vendor/bin/phpspec run %" > test-commands<cr> 
+nmap <leader>ss :w\|:Silent echo "vendor/bin/phpspec run" > test-commands<cr>

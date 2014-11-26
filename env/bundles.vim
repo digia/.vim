@@ -33,6 +33,7 @@ Bundle 'tpope/vim-speeddating'
 Bundle 'kshenoy/vim-signature'
 "Bundle 'Raimondi/delimitMate'
 Bundle 'davidhalter/jedi-vim.git'
+Bundle 'benmills/vimux'
 
 " Testing
 Bundle 'tommcdo/vim-exchange'
