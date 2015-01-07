@@ -34,6 +34,7 @@ Bundle 'kshenoy/vim-signature'
 "Bundle 'Raimondi/delimitMate'
 Bundle 'davidhalter/jedi-vim.git'
 Bundle 'benmills/vimux'
+Bundle 'hdima/python-syntax'
 
 " Testing
 Bundle 'tommcdo/vim-exchange'

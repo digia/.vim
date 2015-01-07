@@ -200,7 +200,7 @@ let NERDTreeQuitOnOpen=0
 let NERDTreeShowLineNumbers=1
 let NERDTreeChDirMode=0
 let NERDTreeShowBookmarks=1
-let NERDTreeIgnore=['\.git','\.hg']
+let NERDTreeIgnore=['\.git$','\.hg&', '\.pyc$']
 nnoremap <F2> :NERDTreeToggle<CR>
 nnoremap <F3> :NERDTreeFind<CR>
 
@@ -251,6 +251,9 @@ let g:pymode_rope_complete_on_dot = 0
 let g:pymode_syntax_print_as_function = 1
 let g:pymode_lint_ignore = "E501,W"
 
+" python-syntax
+let python_highlight_all = 1
+
 " syntastic
 let g:syntastic_mode_map = { 'passive_filetypes': ['sass'] }
 
@@ -265,6 +268,8 @@ map <Leader>vi :VimuxInspectRunner<CR>
 map <Leader>vq :VimuxCloseRunner<CR>
 map <Leader>vx :VimuxInterruptRunner<CR>
 
+nmap <leader>pa :w\|:call VimuxRunCommand("clear; python -m unittest discover")<cr>
+nmap <leader>pt :w\|:call VimuxRunCommand("clear; echo " . bufname("%") . "; python -m unittest " . bufname("%"))<cr>
 nmap <leader>ht :w\|:call VimuxRunCommand("clear; phpunit " . bufname("%"))<cr>
 nmap <leader>ts :w\|:Silent echo "phpunit" > test-commands<cr>
 nmap <leader>s :w\|:Silent echo "vendor/bin/phpspec run %" > test-commands<cr> 
