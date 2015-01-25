@@ -76,7 +76,7 @@ set mouse=a
 " Hide the mouse pointer while typing
 set mousehide
 "sync with OS clipboard
-set clipboard+=unnamed 
+set clipboard=unnamed 
 set number
 " Make command line two lines high
 set ch=2
@@ -274,3 +274,6 @@ nmap <leader>ht :w\|:call VimuxRunCommand("clear; phpunit " . bufname("%"))<cr>
 nmap <leader>ts :w\|:Silent echo "phpunit" > test-commands<cr>
 nmap <leader>s :w\|:Silent echo "vendor/bin/phpspec run %" > test-commands<cr> 
 nmap <leader>ss :w\|:Silent echo "vendor/bin/phpspec run" > test-commands<cr>
+
+" indentLine
+let g:indentLine_color_term = 0

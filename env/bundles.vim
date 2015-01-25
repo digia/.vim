@@ -36,15 +36,14 @@ Bundle 'davidhalter/jedi-vim.git'
 Bundle 'benmills/vimux'
 Bundle 'hdima/python-syntax'
 
+" vim-scripts repos
+Bundle 'L9'
+
 " Testing
 Bundle 'tommcdo/vim-exchange'
 Bundle 'AndrewRadev/splitjoin.vim'
 Bundle 'AndrewRadev/switch.vim'
 Bundle 'godlygeek/tabular'
 Bundle 'plasticboy/vim-markdown'
+Bundle 'Yggdroot/indentLine'
 
-" vim-scripts repos
-Bundle 'L9'
-
-" Base 16 colors
-Bundle 'chriskempson/base16-vim'
