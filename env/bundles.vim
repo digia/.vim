@@ -35,6 +35,7 @@ Bundle 'kshenoy/vim-signature'
 Bundle 'davidhalter/jedi-vim.git'
 Bundle 'benmills/vimux'
 Bundle 'hdima/python-syntax'
+Bundle 'mitsuhiko/vim-jinja'
 
 " vim-scripts repos
 Bundle 'L9'
@@ -45,5 +46,6 @@ Bundle 'AndrewRadev/splitjoin.vim'
 Bundle 'AndrewRadev/switch.vim'
 Bundle 'godlygeek/tabular'
 Bundle 'plasticboy/vim-markdown'
+" Could cause performance issues
 Bundle 'Yggdroot/indentLine'
 
